@@ -40,10 +40,14 @@ export default function Cart() {
       if(address.trim().length === 0) {
         return Alert.alert('Pedido', 'Informe os dados para a entrega!');
       }
-      
+
       const products = cartStore.products
       .map((product) => `\n ${product.quantity} ${product.title}`)
       .join('');
+
+      if(products.length === 0) {
+        return Alert.alert('Pedido', 'Seu carrinho está vazio, adicione produtos no seu pedido.')
+      }
 
       const message = `
         🍔 NOVO PEDIDO
@@ -55,7 +59,6 @@ export default function Cart() {
       Linking.openURL(`http://api.whatsapp.com/send?phone=${PHONE_NUMBER}&text=${message}`)
       cartStore.clear();
       navigation.goBack();
-
   }
 
   return (
@@ -106,7 +109,6 @@ export default function Cart() {
           <Feather name="arrow-right-circle" size={20} />
         </Button.Icon>
       </Button>
-
       <LinkButton title="Voltar ao cardápio" href="/"/>
     </View>
   </View>
